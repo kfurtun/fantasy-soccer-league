@@ -9,6 +9,7 @@ export default createGlobalStyle`
       --secondary-color:#FDB912;
       --secondary-color-hover:#e3a302;
       --border-radius:6px;
+      --padding-in-banner:2vw;
     }
     
     html, body, div, span, applet, object, iframe,

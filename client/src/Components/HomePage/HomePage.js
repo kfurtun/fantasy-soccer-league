@@ -1,5 +1,4 @@
 import { PageTemplate } from "../PageTemplate";
-import { SignIn } from "../SignIn.js";
 import styled from "styled-components";
 export const HomePage = () => {
   return (

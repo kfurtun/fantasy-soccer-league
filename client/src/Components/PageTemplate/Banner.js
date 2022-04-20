@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-left: 8vw;
-  padding-left: 2vw;
+  padding-left: var(--padding-in-banner);
   font-size: 1.2vw;
   margin-top: 1vw;
   border-top-left-radius: 6px;
@@ -48,7 +48,7 @@ const LeftDiv = styled.div`
 const RightDiv = styled.div`
   display: flex;
   height: 5vw;
-  padding-right: 2vw;
+  padding-right: var(--padding-in-banner);
 `;
 const Item = styled.a`
   cursor: pointer;

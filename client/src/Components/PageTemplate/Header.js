@@ -20,7 +20,6 @@ export const Header = ({ clubs }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100vw;
   gap: 1vw;
   margin-left: 10vw;
   margin-top: 1vw;

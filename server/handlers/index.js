@@ -1,3 +1,4 @@
 const login = require("./userHandlers/login");
+const signUp = require("./userHandlers/signUp");
 
-module.exports = { login };
+module.exports = { login, signUp };
