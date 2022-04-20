@@ -7,6 +7,8 @@ export default createGlobalStyle`
       --primary-color: #A90432;
       --primary-color-hover:#63031e;
       --secondary-color:#FDB912;
+      --secondary-color-hover:#e3a302;
+      --border-radius:6px;
     }
     
     html, body, div, span, applet, object, iframe,
@@ -29,10 +31,13 @@ export default createGlobalStyle`
         vertical-align: baseline;
         box-sizing: border-box;
         font-family: 'Open Sans', sans-serif;
+       
     }
     /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure,
     footer, header, hgroup, menu, nav, section {
         display: block;
     }
+
+    
     `;

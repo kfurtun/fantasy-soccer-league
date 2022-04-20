@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { HomePage } from "./Components";
+import { Login } from "./Components";
 import GlobalStyles from "./GlobalStyles";
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <GlobalStyles />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );

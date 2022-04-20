@@ -7,7 +7,6 @@ export const PageTemplate = ({ children }) => {
     <div>
       <Header clubs={clubs} />
       <Banner />
-
       {children}
     </div>
   );

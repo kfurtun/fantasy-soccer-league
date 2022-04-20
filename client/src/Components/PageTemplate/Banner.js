@@ -1,20 +1,27 @@
 import styled from "styled-components";
-
-const bannerItems = [
-  { name: "Fixtures", route: "/" },
-  { name: "Players", route: "/" },
-  { name: "Teams", route: "/" },
-  { name: "Build Your Team", route: "/" },
-  { name: "Results", route: "/" },
-  { name: "Rules", route: "/" },
-];
+import { bannerItems, loginItems } from "../constants";
 
 export const Banner = () => {
   return (
     <Wrapper>
-      {bannerItems.map((item) => {
-        return <Item>{item.name}</Item>;
-      })}
+      <LeftDiv>
+        {bannerItems.map((item) => {
+          return (
+            <Item key={item.name} href={item.route}>
+              {item.name}
+            </Item>
+          );
+        })}
+      </LeftDiv>
+      <RightDiv>
+        {loginItems.map((item) => {
+          return (
+            <Item key={item.name} href={item.route}>
+              {item.name}
+            </Item>
+          );
+        })}
+      </RightDiv>
     </Wrapper>
   );
 };
@@ -23,23 +30,35 @@ const Wrapper = styled.div`
   background-color: var(--primary-color);
   display: flex;
   gap: 50px;
-  height: 5vw;
+  justify-content: space-between;
   align-items: center;
   margin-left: 8vw;
   padding-left: 2vw;
-  color: white;
+  font-size: 1.2vw;
   margin-top: 1vw;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 `;
 
-const Item = styled.div`
+const LeftDiv = styled.div`
+  display: flex;
+  height: 5vw;
+`;
+
+const RightDiv = styled.div`
+  display: flex;
+  height: 5vw;
+  padding-right: 2vw;
+`;
+const Item = styled.a`
   cursor: pointer;
   height: 100%;
   display: flex;
   align-items: center;
   padding: 0 1vw;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: white;
 
   &:hover {
     background-color: var(--primary-color-hover);

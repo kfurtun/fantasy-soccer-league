@@ -8,7 +8,7 @@ export const Header = ({ clubs }) => {
       <Clubs>
         {clubs.map((club) => {
           return (
-            <a href={club.website} target="_blank">
+            <a href={club.website} target="_blank" key={Math.random()}>
               <Img src={club.logo} alt={`${club.name} logo`} {...screenSizes} />
             </a>
           );
