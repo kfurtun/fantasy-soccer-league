@@ -1,7 +1,8 @@
+import React from "react";
 import styled from "styled-components";
 import { screenSizes } from "../../GlobalStyles";
 
-export const Header = ({ clubs }) => {
+export const Header = React.memo(({ clubs }) => {
   return (
     <Wrapper>
       <Text>CLUB SITES</Text>
@@ -16,7 +17,7 @@ export const Header = ({ clubs }) => {
       </Clubs>
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   display: flex;

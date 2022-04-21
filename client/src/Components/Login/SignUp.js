@@ -1,35 +1,32 @@
 import { PageTemplate } from "../PageTemplate";
 import styled from "styled-components";
-import { IoIosPersonAdd, IoIosStar, IoIosMail } from "react-icons/io";
-import { PersonalDetails } from "./PersonalDetails";
-const sections = [
-  { name: "1. Personal details", logo: <IoIosPersonAdd size="3vw" /> },
-  { name: "2. Your favorites", logo: <IoIosStar size="3vw" /> },
-  { name: "3. Email preferences", logo: <IoIosMail size="3vw" /> },
-];
+import { registrationSections } from "../../assets";
+import { useSelector } from "react-redux";
 
-export const SignUp = () => {
+export const SignUp = ({ children }) => {
+  const currentPage = useSelector((state) => state.page);
+  const sections = registrationSections(currentPage);
   return (
     <PageTemplate>
       <Wrapper>
         <Header>Create a new account</Header>
         <Sections>
-          {sections.map((section, index) => {
-            return (
-              <>
-                <Section>
-                  <Logo>{section.logo}</Logo>
-                  <div>{section.name}</div>
-                </Section>
-                {/* {index !== 2 && <Hr></Hr>} */}
-              </>
-            );
-          })}
+          {sections.map(
+            (section, index) => (
+              <Section key={section.id}>
+                <Logo page={section.id} currentPage={currentPage}>
+                  {section.logo}
+                </Logo>
+                <Name>{section.name}</Name>
+              </Section>
+            )
+            /* {index !== 2 && <Hr></Hr>} */
+          )}
         </Sections>
         <Breaker>
           <Line></Line>
         </Breaker>
-        <PersonalDetails />
+        {children}
       </Wrapper>
     </PageTemplate>
   );
@@ -56,7 +53,7 @@ const Breaker = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2vw;
+  margin: 2vw 0;
   color: #bfbfbf;
 `;
 const Line = styled.div`
@@ -84,10 +81,24 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4vw;
-  height: 4vw;
-  background: var(--primary-color);
-  color: white;
+  width: 3.5vw;
+  height: 3.5vw;
+  background: ${(props) =>
+    props.page === props.currentPage
+      ? "var(--primary-color)"
+      : props.currentPage === 2
+      ? "#13cf00"
+      : "gray"};
+  color: ${(props) =>
+    props.page === props.currentPage
+      ? "white"
+      : props.currentPage === 2
+      ? "white"
+      : "lightgray"};
+`;
+
+const Name = styled.div`
+  font-size: 1.1vw;
 `;
 
 const Hr = styled.hr`

@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { proxy } from "../constants";
 
 export const Login = () => {
-  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const body = {
     method: "PUT",
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ email, password }),
     headers: { "Content-type": "application/json; charset=UTF-8" },
   };
 
@@ -26,11 +26,11 @@ export const Login = () => {
         <Wrapper>
           <InfoWrapper>
             <InfoCont>
-              <label>Username</label>
+              <label>Email</label>
               <Input
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                value={username}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                value={email}
               />
             </InfoCont>
             <InfoCont>

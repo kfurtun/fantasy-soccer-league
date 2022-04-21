@@ -1,7 +1,8 @@
+import React from "react";
 import styled from "styled-components";
-import { bannerItems, loginItems } from "../constants";
+import { loginItems, bannerItems } from "../../assets";
 
-export const Banner = () => {
+export const Banner = React.memo(() => {
   return (
     <Wrapper>
       <LeftDiv>
@@ -24,7 +25,7 @@ export const Banner = () => {
       </RightDiv>
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   background-color: var(--primary-color);

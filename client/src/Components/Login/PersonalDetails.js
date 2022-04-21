@@ -1,169 +1,147 @@
 import React from "react";
 import styled from "styled-components";
-import { countryList } from "../constants";
-import { proxy } from "../constants";
+import { countryList, formElements, inputStatus, genders } from "../../assets";
+import {
+  addInputValues,
+  addCheckbox,
+  changeCurrentPage,
+} from "../../globalState";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { SignUp } from "./SignUp";
 
 export const PersonalDetails = () => {
-  const [infoState, setInfoState] = React.useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    dob: "",
-    country: "",
-  });
-  const [checked, setChecked] = React.useState({
-    male: false,
-    female: false,
-    unspecified: false,
-  });
+  const navigate = useNavigate();
+  const infoState = useSelector((state) => state.registration);
+  const dispatch = useDispatch();
+
+  const [checked, setChecked] = React.useState(
+    infoState.gender ? { [infoState.gender]: true } : false
+  );
+  const [validate, setValidate] = React.useState(false);
 
   const handleChecked = (event) => {
-    setChecked({
-      [event.target.id]: !checked[event.target.id],
-    });
+    setChecked({ [event.target.name]: true });
+    dispatch(addCheckbox({ value: event.target.name }));
   };
 
   const handleChange = (event) => {
-    setInfoState({ ...infoState, [event.target.name]: event.target.value });
+    dispatch(
+      addInputValues({ name: event.target.name, value: event.target.value })
+    );
   };
-  const body = {
-    method: "POST",
-    body: JSON.stringify({
-      ...infoState,
-      gender: Object.keys(checked)[0],
-    }),
-    headers: { "Content-type": "application/json; charset=UTF-8" },
-  };
+
   const handleClick = () => {
-    fetch(`${proxy}/user`, body)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    setValidate(true);
+    const clonedState = { ...infoState };
+    delete clonedState.team;
+    if (Object.values(clonedState).some((input) => !input)) {
+      alert("Please fix incorrect area/s");
+    } else if (!infoState.email.includes("@")) {
+      alert("Please enter valid email address!");
+    } else {
+      dispatch(changeCurrentPage(2));
+      navigate("/sign-up/your-favorites");
+    }
   };
-  console.log(body.body);
+
   return (
-    <Wrapper>
-      <Header>Your Personal Details</Header>
-      <Section>
-        <Labels>
-          <Label>First Name </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Input
-          value={infoState.firstName}
-          name="firstName"
-          onChange={handleChange}
-        />
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Last Name </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Input
-          value={infoState.lastName}
-          name="lastName"
-          onChange={handleChange}
-        />
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Email Address </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Input value={infoState.email} name="email" onChange={handleChange} />
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Password </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Input
-          value={infoState.password}
-          name="password"
-          onChange={handleChange}
-        />
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Gender </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Genders>
-          <Gender>
-            <Checkbox
-              type="checkbox"
-              name="gender"
-              value="Male"
-              id="male"
-              checked={!!checked.male}
-              onChange={handleChecked}
-            />
-            <label>Male</label>
-          </Gender>
-          <Gender>
-            <Checkbox
-              type="checkbox"
-              name="gender"
-              value="Female"
-              id="female"
-              checked={!!checked.female}
-              onChange={handleChecked}
-            />
-            <label>Female</label>
-          </Gender>
-          <Gender>
-            <Checkbox
-              type="checkbox"
-              name="gender"
-              value="Unspecified"
-              id="unspecified"
-              checked={!!checked.unspecified}
-              onChange={handleChecked}
-            />
-            <label>Unspecified</label>
-          </Gender>
-        </Genders>
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Date of Birth </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Date
-          type="date"
-          name="dob"
-          value={infoState.dob}
-          onChange={handleChange}
-        />
-      </Section>
-      <Section>
-        <Labels>
-          <Label>Country of Residence </Label>
-          <ReqLabel>* Required</ReqLabel>
-        </Labels>
-        <Select
-          name="country"
-          value={infoState.country}
-          onChange={handleChange}
-        >
-          {countryList.map((country) => (
-            <option>{country}</option>
+    <SignUp>
+      <Container>
+        <Wrapper>
+          <Header>Your Personal Details</Header>
+          {formElements.map((el) => (
+            <Section key={el.name}>
+              <Labels>
+                <Label>{el.label}</Label>
+                <ReqLabel>* Required</ReqLabel>
+              </Labels>
+              <Input
+                value={infoState[el.name]}
+                name={el.name}
+                onChange={handleChange}
+                type={el.type}
+              />
+              {validate && (
+                <Icon>
+                  {infoState[el.name] === "" ||
+                  (el.name === "email" && !infoState.email.includes("@"))
+                    ? inputStatus.warning.icon
+                    : inputStatus.success.icon}
+                </Icon>
+              )}
+            </Section>
           ))}
-        </Select>
-      </Section>
-      <button onClick={handleClick}>Submit</button>
-    </Wrapper>
+          <Section>
+            <Labels>
+              <Label>Gender </Label>
+              <ReqLabel>* Required</ReqLabel>
+            </Labels>
+            <Genders>
+              {genders.map((gender) => (
+                <Gender key={gender.name}>
+                  <Checkbox
+                    type="checkbox"
+                    value={gender.value}
+                    name={gender.name}
+                    checked={!!checked[gender.name]}
+                    onChange={handleChecked}
+                  />
+                  <label>{gender.value}</label>
+                </Gender>
+              ))}
+              {validate && (
+                <Icon>
+                  {infoState.gender === "" || !Object.values(checked).length
+                    ? inputStatus.warning.icon
+                    : inputStatus.success.icon}
+                </Icon>
+              )}
+            </Genders>
+          </Section>
+          <Section>
+            <Labels>
+              <Label>Country of Residence </Label>
+              <ReqLabel>* Required</ReqLabel>
+            </Labels>
+            <Select
+              name="country"
+              value={infoState.country}
+              onChange={handleChange}
+            >
+              {countryList.map((country) => (
+                <option key={country}>{country}</option>
+              ))}
+            </Select>
+            {validate && (
+              <Icon>
+                {infoState.country === ""
+                  ? inputStatus.warning.icon
+                  : inputStatus.success.icon}
+              </Icon>
+            )}
+          </Section>
+          <ButtonDiv>
+            <Button onClick={handleClick}>Next</Button>
+          </ButtonDiv>
+        </Wrapper>
+      </Container>
+    </SignUp>
   );
 };
 
+const Container = styled.div`
+  height: 60vw;
+`;
+
 const Wrapper = styled.div`
-  width: 60vw;
+  width: 55vw;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   gap: 2vw;
   padding: 3vw 5vw;
+  position: relative;
 `;
 
 const Section = styled.div`
@@ -175,8 +153,10 @@ const Section = styled.div`
 const Header = styled.div``;
 
 const Input = styled.input`
-  width: 30vw;
-  height: 2.5vw;
+  width: 25vw;
+  height: 2.2vw;
+  font-size: 1.3vw;
+  padding: 0.18vw;
 `;
 
 const Labels = styled.div`
@@ -185,18 +165,18 @@ const Labels = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: 1.5vw;
+  font-size: 1.3vw;
 `;
 const ReqLabel = styled.label`
   color: var(--primary-color);
-  font-size: 1.2vw;
+  font-size: 1vw;
 `;
 
 const Genders = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30vw;
+  width: 26vw;
   gap: 0.8vw;
 `;
 
@@ -205,22 +185,39 @@ const Gender = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.3vw;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
 `;
 
 const Checkbox = styled.input`
-  width: 2.5vw;
-  height: 2.5vw;
-`;
-
-const Date = styled.input`
-  width: 30.5vw;
-  height: 2.5vw;
-  font-size: 1.4vw;
+  width: 2.2vw;
+  height: 2.2vw;
 `;
 
 const Select = styled.select`
-  width: 31vw;
-  height: 2.5vw;
-  font-size: 1.4vw;
+  width: 25.8vw;
+  height: 2.2vw;
+  font-size: 1.3vw;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const Button = styled.button`
+  height: 2.2vw;
+  width: 20vw;
+  font-size: 1.3vw;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  &:hover {
+    background: var(--primary-color-hover);
+  }
+`;
+
+const Icon = styled.div`
+  position: absolute;
+  right: 1.5vw;
 `;
