@@ -14,7 +14,7 @@ const connectDb = async () => {
 
   await client.connect();
   const db = client.db("project");
-  console.log("zaa");
+
   return { db, client };
 };
 
