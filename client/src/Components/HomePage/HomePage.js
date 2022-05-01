@@ -1,6 +1,8 @@
 import { PageTemplate } from "../PageTemplate";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 export const HomePage = () => {
+  console.log(useSelector((state) => state));
   return (
     <PageTemplate>
       <Breaker>

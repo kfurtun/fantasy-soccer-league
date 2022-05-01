@@ -7,17 +7,27 @@ const signUp = async (body, req, res) => {
   const { db } = await connectDb();
 
   bcrypt.hash(body.password, saltRounds, async (err, hash) => {
-    const newUser = await db
+    const checkUserExist = await db
       .collection("users")
-      .insertOne({ ...body, password: hash });
-    if (newUser) {
-      res
-        .status(200)
-        .json({
+      .findOne({ _id: body.email });
+    if (!checkUserExist) {
+      const newUser = await db
+        .collection("users")
+        .insertOne({ ...body, password: hash, _id: body.email });
+      if (newUser) {
+        const userInfo = await db
+          .collection("users")
+          .findOne({ _id: body.email });
+        res.status(200).json({
           status: 200,
           message: "Successfully signed in!",
-          data: newUser,
+          data: {
+            firstName: userInfo.firstName,
+            email: userInfo.email,
+            team: userInfo.team,
+          },
         });
+      }
     } else {
       res.status(400).json({
         status: 400,

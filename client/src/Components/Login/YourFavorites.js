@@ -2,15 +2,46 @@ import React from "react";
 import { SignUp } from "./SignUp";
 import { clubs } from "../../assets";
 import styled from "styled-components";
-import { chooseTeam, changeCurrentPage } from "../../globalState";
+import {
+  chooseTeam,
+  changeCurrentPage,
+  currentUserLoggedIn,
+} from "../../globalState";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { proxy } from "../constants";
+import { Spinner } from "../../GlobalStyles";
+import { headers } from "../constants";
+
 export const YourFavorites = React.memo(() => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
   const navigate = useNavigate();
 
+  const [showSpinner, setShowSpinner] = React.useState(false);
+  const [teams, setTeams] = React.useState([]);
+
+  //if this route is not clicked just after sign up page, it is redirected to not-found page
+  React.useEffect(() => {
+    if (!state.registration.firstName) {
+      navigate("/not-found");
+    }
+  }, []);
+
+  //brings all the teams
+  React.useEffect(() => {
+    fetch("https://v3.football.api-sports.io/teams?league=203&season=2021", {
+      headers,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTeams(data.response);
+      });
+  }, []);
+
+  //adds team selection to registration state
   const handleClick = (name) => {
     dispatch(chooseTeam({ value: name }));
   };
@@ -22,10 +53,26 @@ export const YourFavorites = React.memo(() => {
     }),
     headers: { "Content-type": "application/json; charset=UTF-8" },
   };
+
+  //submits complete registration form
   const handleSubmitClick = () => {
-    fetch(`${proxy}/user`, body)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    if (state.registration.team) {
+      //checks if the team is selected
+      setShowSpinner(true);
+      fetch(`${proxy}/user`, body)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            dispatch(currentUserLoggedIn({ ...data.data })); //gets user info from DB and put in global state
+            navigate("/");
+          } else {
+            alert(data.message);
+            setShowSpinner(false);
+          }
+        });
+    } else {
+      alert("Please select your team");
+    }
   };
 
   if (state.page !== 2) {
@@ -33,36 +80,44 @@ export const YourFavorites = React.memo(() => {
   }
 
   return (
-    <SignUp>
-      <PageContainer>
-        <Wrapper>
-          {clubs.map((club) => (
-            <Container
-              onClick={() => handleClick(club.name)}
-              key={Math.random()}
-              team={club.name}
-              selectedTeam={state.registration.team}
-            >
-              <Img src={club.logo} />
-              <Name>{club.name}</Name>
-            </Container>
-          ))}
-        </Wrapper>
-        <ButtonGroup>
-          <Button name="submit" onClick={handleSubmitClick}>
-            Submit
-          </Button>
-          <Button
-            onClick={() => {
-              dispatch(changeCurrentPage(1));
-              navigate("/sign-up");
-            }}
-          >
-            Back to personal details
-          </Button>
-        </ButtonGroup>
-      </PageContainer>
-    </SignUp>
+    <>
+      {state.registration.firstName && (
+        <SignUp>
+          <PageContainer>
+            <Wrapper>
+              {teams.map((club) => (
+                <Container
+                  onClick={() => handleClick(club.team.name)}
+                  key={Math.random()}
+                  team={club.team.name}
+                  selectedTeam={state.registration.team}
+                >
+                  <Img src={club.team.logo} />
+                  <Name>{club.team.name}</Name>
+                </Container>
+              ))}
+            </Wrapper>
+            <ButtonGroup>
+              <Button
+                name="submit"
+                onClick={handleSubmitClick}
+                showSpinner={showSpinner}
+              >
+                {!showSpinner ? "Submit" : <SignupSpinner></SignupSpinner>}
+              </Button>
+              <Button
+                onClick={() => {
+                  dispatch(changeCurrentPage(1));
+                  navigate("/sign-up");
+                }}
+              >
+                Back to personal details
+              </Button>
+            </ButtonGroup>
+          </PageContainer>
+        </SignUp>
+      )}
+    </>
   );
 });
 const PageContainer = styled.div`
@@ -83,7 +138,7 @@ const Container = styled.button`
   border-left: 0;
   background: none;
   width: calc(15vw - 0.35px);
-  height: calc(15vw - 0.35px);
+  height: calc(16vw - 0.35px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,6 +165,9 @@ const ButtonGroup = styled.div`
   gap: 2vw;
 `;
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 2.5vw;
   width: 20vw;
   background: ${(props) => (props.name ? "var(--primary-color)" : "gray")};
@@ -117,7 +175,11 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
+  pointer-events: ${(props) => (props.showSpinner ? "none" : "auto")};
+  text-align: center;
   &:hover {
     background: var(--primary-color-hover);
   }
 `;
+
+const SignupSpinner = styled(Spinner)``;

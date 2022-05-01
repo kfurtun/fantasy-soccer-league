@@ -15,3 +15,12 @@ export const pageReducers = {
     return (state = action.payload);
   },
 };
+
+export const currentUserReducers = {
+  currentUserLoggedIn: (state, action) => {
+    return (state = action.payload);
+  },
+  currentUserLoggedOut: (state) => {
+    state = { firstName: "", email: "", team: "" };
+  },
+};

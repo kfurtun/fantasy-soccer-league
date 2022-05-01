@@ -8,10 +8,15 @@ const login = async (password, email, req, res) => {
   if (userResult) {
     bcrypt.compare(password, userResult.password, async (err, result) => {
       if (result) {
+        const userInfo = await db.collection("users").findOne({ _id: email });
         res.status(200).json({
           status: 200,
           message: "Successfully signed in!",
-          data: userResult,
+          data: {
+            firstName: userInfo.firstName,
+            email: userInfo.email,
+            team: userInfo.team,
+          },
         });
       } else {
         res.status(400).json({

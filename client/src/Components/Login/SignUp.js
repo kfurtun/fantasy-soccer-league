@@ -4,8 +4,8 @@ import { registrationSections } from "../../assets";
 import { useSelector } from "react-redux";
 
 export const SignUp = ({ children }) => {
-  const currentPage = useSelector((state) => state.page);
-  const sections = registrationSections(currentPage);
+  const currentPage = useSelector((state) => state.page); //# of page in registration process
+  const sections = registrationSections(currentPage); //shows section logos on registration page
   return (
     <PageTemplate>
       <Wrapper>

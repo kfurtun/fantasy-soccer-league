@@ -3,10 +3,17 @@ import styled from "styled-components";
 import { PageTemplate } from "../PageTemplate";
 import { Link } from "react-router-dom";
 import { proxy } from "../constants";
+import { Spinner } from "../../GlobalStyles";
+import { useDispatch } from "react-redux";
+import { currentUserLoggedIn } from "../../globalState";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [showSpinner, setShowSpinner] = React.useState(false);
+  let navigate = useNavigate();
 
   const body = {
     method: "PUT",
@@ -15,9 +22,18 @@ export const Login = () => {
   };
 
   const handleSubmitClick = () => {
+    setShowSpinner(true);
     fetch(`${proxy}/user`, body)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.status === 200) {
+          dispatch(currentUserLoggedIn({ ...data.data }));
+          navigate("/");
+        } else {
+          alert(data.message);
+          setShowSpinner(false);
+        }
+      });
   };
 
   return (
@@ -43,7 +59,9 @@ export const Login = () => {
               />
             </InfoCont>
           </InfoWrapper>
-          <Button onClick={handleSubmitClick}>Login</Button>
+          <Button onClick={handleSubmitClick}>
+            {showSpinner ? <LoginSpinner></LoginSpinner> : "Login"}
+          </Button>
           <Link to="/">Forgot password?</Link>
           <Link to="/">Don't you have an account? Sign up here!</Link>
         </Wrapper>
@@ -65,6 +83,7 @@ const Wrapper = styled.div`
   a {
     text-decoration: none;
     color: white;
+    font-size: 1.3vw;
     &:hover {
       text-decoration: underline;
     }
@@ -100,6 +119,9 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   height: 2.5vw;
   width: 10vw;
@@ -110,4 +132,10 @@ const Button = styled.button`
   &:hover {
     background-color: var(--secondary-color-hover);
   }
+`;
+
+const LoginSpinner = styled(Spinner)`
+  border-top: 0.5vw solid var(--primary-color);
+  border-left: 0.5vw solid var(--primary-color);
+  border-bottom: 0.5vw solid var(--primary-color);
 `;

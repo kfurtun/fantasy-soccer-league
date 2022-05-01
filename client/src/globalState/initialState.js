@@ -10,3 +10,9 @@ export const initialState = {
 };
 
 export const pageState = 1;
+
+export const currentUserState = {
+  firstName: "",
+  email: "",
+  team: "",
+};
