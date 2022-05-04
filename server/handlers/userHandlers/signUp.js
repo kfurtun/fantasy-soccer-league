@@ -4,7 +4,7 @@ const saltRounds = 10;
 
 //for sign up
 const signUp = async (body, req, res) => {
-  const { db } = await connectDb();
+  const { db, client } = await connectDb();
 
   bcrypt.hash(body.password, saltRounds, async (err, hash) => {
     const checkUserExist = await db
@@ -35,6 +35,7 @@ const signUp = async (body, req, res) => {
       });
     }
   });
+  client.close();
 };
 
 module.exports = signUp;

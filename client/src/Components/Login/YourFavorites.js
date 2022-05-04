@@ -1,6 +1,5 @@
 import React from "react";
 import { SignUp } from "./SignUp";
-import { clubs } from "../../assets";
 import styled from "styled-components";
 import {
   chooseTeam,
@@ -9,9 +8,8 @@ import {
 } from "../../globalState";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { proxy } from "../constants";
+import { proxy, apiUrl, headers, leagueId, season } from "../constants";
 import { Spinner } from "../../GlobalStyles";
-import { headers } from "../constants";
 
 export const YourFavorites = React.memo(() => {
   const dispatch = useDispatch();
@@ -31,7 +29,7 @@ export const YourFavorites = React.memo(() => {
 
   //brings all the teams
   React.useEffect(() => {
-    fetch("https://v3.football.api-sports.io/teams?league=203&season=2021", {
+    fetch(`${apiUrl}/teams?league=${leagueId}&season=${season}`, {
       headers,
     })
       .then((res) => res.json())

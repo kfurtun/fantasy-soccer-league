@@ -27,7 +27,7 @@ export const Banner = React.memo(() => {
   );
 });
 
-const Wrapper = styled.div`
+const Wrapper = styled.nav`
   background-color: var(--primary-color);
   display: flex;
   gap: 50px;

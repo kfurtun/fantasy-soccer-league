@@ -35,7 +35,7 @@ export const Header = React.memo(({ clubs }) => {
   );
 });
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   display: flex;
   gap: 1vw;
   margin-left: 10vw;

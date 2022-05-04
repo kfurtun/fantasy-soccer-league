@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 //for login auth
 const login = async (password, email, req, res) => {
-  const { db } = await connectDb();
+  const { db, client } = await connectDb();
   const userResult = await db.collection("users").findOne({ email });
   if (userResult) {
     bcrypt.compare(password, userResult.password, async (err, result) => {
@@ -30,6 +30,7 @@ const login = async (password, email, req, res) => {
       .status(404)
       .json({ status: 404, message: "User not found. Please try again!" });
   }
+  client.close();
 };
 
 module.exports = login;
