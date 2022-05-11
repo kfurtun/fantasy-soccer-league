@@ -1,7 +1,6 @@
 import { PageTemplate } from "../PageTemplate";
 import { SearchBar } from "./SearchBar";
 import { TopPlayers } from "./TopPlayers";
-
 import styled from "styled-components";
 
 export const Players = () => {

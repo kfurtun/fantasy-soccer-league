@@ -6,9 +6,10 @@ const convertChar = require("../../assets/charConverter");
 const filterPlayers = async (letters, req, res) => {
   const convertedInput =
     convertChar(letters).charAt(0).toUpperCase() +
-    convertChar(letters).slice(1); // converts english chars to turkish
+    convertChar(letters).slice(1).toLowerCase(); // converts english chars to turkish
 
-  const input = letters.charAt(0).toUpperCase() + letters.slice(1);
+  const input =
+    letters.charAt(0).toUpperCase() + letters.slice(1).toLowerCase();
 
   const { db, client } = await connectDb();
   const result = await db

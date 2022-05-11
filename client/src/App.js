@@ -6,6 +6,7 @@ import { NotFound } from "./Components/NotFound";
 
 import GlobalStyles from "./GlobalStyles";
 import { Players } from "./Components/Players";
+import { Teams } from "./Components/Teams";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/sign-up" element={<PersonalDetails />} />
         <Route path="/sign-up/your-favorites" element={<YourFavorites />} />
         <Route path="players" element={<Players />} />
+        <Route path="/teams" element={<Teams />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

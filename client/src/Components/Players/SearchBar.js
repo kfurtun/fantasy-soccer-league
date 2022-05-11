@@ -11,7 +11,7 @@ export const SearchBar = React.memo(() => {
   const handleChange = (e) => {
     setInput(e.target.value);
   };
-
+  console.log(result);
   React.useEffect(() => {
     if (input.length > 2) {
       fetch(`${proxy}/player/${input}`)
