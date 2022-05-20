@@ -1,3 +1,5 @@
+import { initialState, currentUserState, lineUp } from "./initialState";
+
 export const reducers = {
   addInputValues: (state, action) => {
     state[action.payload.name] = action.payload.value;
@@ -7,6 +9,9 @@ export const reducers = {
   },
   chooseTeam: (state, action) => {
     state.team = action.payload.value;
+  },
+  clearForm: (state) => {
+    return (state = initialState);
   },
 };
 
@@ -21,6 +26,27 @@ export const currentUserReducers = {
     return (state = action.payload);
   },
   currentUserLoggedOut: (state) => {
-    state = { firstName: "", email: "", team: "" };
+    return (state = currentUserState);
+  },
+};
+
+export const lineUpReducers = {
+  addPlayerToPosition: (state, action) => {
+    state[action.payload.position] = action.payload.player;
+  },
+  removePlayerFromPosition: (state, action) => {
+    delete state[action.payload.position];
+  },
+  bringSubmittedLineup: (state, action) => {
+    return (state = action.payload);
+  },
+  clearLineup: (state) => {
+    return (state = lineUp);
+  },
+};
+
+export const currentWeekReducers = {
+  setCurrentWeek: (state, action) => {
+    return (state = action.payload);
   },
 };

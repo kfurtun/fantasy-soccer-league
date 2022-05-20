@@ -7,7 +7,7 @@ export const Players = () => {
   return (
     <PageTemplate>
       <Wrapper>
-        <SearchBar />
+        <SearchBar type="player" />
         <TopPlayers />
       </Wrapper>
     </PageTemplate>

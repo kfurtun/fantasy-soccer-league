@@ -6,6 +6,8 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const playerRouter = require("./routes/players");
+const teamRouter = require("./routes/team");
+const resultsRouter = require("./routes/results");
 
 const app = express();
 const PORT = 8000;
@@ -32,6 +34,8 @@ app.use(function (req, res, next) {
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/player", playerRouter);
+app.use("/team", teamRouter);
+app.use("/results", resultsRouter);
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);

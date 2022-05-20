@@ -16,3 +16,7 @@ export const currentUserState = {
   email: "",
   team: "",
 };
+
+export const lineUp = {};
+
+export const currentWeekState = null;

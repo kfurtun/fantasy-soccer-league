@@ -8,6 +8,6 @@ export const registrationSlice = createSlice({
   reducers,
 });
 
-export const { addInputValues, addCheckbox, chooseTeam } =
+export const { addInputValues, addCheckbox, chooseTeam, clearForm } =
   registrationSlice.actions;
 export default registrationSlice.reducer;

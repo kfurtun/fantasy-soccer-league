@@ -17,17 +17,14 @@ export const Header = React.memo(({ clubs }) => {
   }, []);
   return (
     <Wrapper>
-      <Text>CLUB SITES</Text>
       <Clubs>
         {teams.map((club) => {
           return (
-            <a href={club.website} target="_blank" key={Math.random()}>
-              <Img
-                src={club.team.logo}
-                alt={`${club.team.name} logo`}
-                {...screenSizes}
-              />
-            </a>
+            <Img
+              src={club.team.logo}
+              alt={`${club.team.name} logo`}
+              {...screenSizes}
+            />
           );
         })}
       </Clubs>
@@ -43,9 +40,6 @@ const Wrapper = styled.header`
   align-items: center;
 `;
 
-const Text = styled.div`
-  font-size: 1.1rem;
-`;
 const Clubs = styled.div`
   display: flex;
   justify-content: space-around;

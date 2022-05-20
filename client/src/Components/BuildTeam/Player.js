@@ -1,15 +1,21 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addPlayerToPosition } from "../../globalState";
 import styled from "styled-components";
-import { PlayerStats } from "./PlayerStats";
 
 export const Player = (props) => {
-  const { firstname, lastname, team, position, teamId, _id } = props;
+  const { firstname, lastname, team, position, teamId, _id, index } = props;
 
-  const [showPlayerStats, setShowPlayerStats] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.preventDefault();
-    setShowPlayerStats(true);
+    dispatch(
+      addPlayerToPosition({
+        position: `${position.charAt(0)}${index}`,
+        player: props,
+      })
+    );
   };
 
   return (
@@ -25,13 +31,6 @@ export const Player = (props) => {
           <i>{team}</i>
         </div>
       </Wrapper>
-      {showPlayerStats && (
-        <PlayerStats
-          setShowPlayerStats={setShowPlayerStats}
-          teamId={teamId}
-          id={_id}
-        />
-      )}
     </>
   );
 };

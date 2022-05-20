@@ -2,13 +2,14 @@ import React from "react";
 import { apiUrl, leagueId, season, headers } from "../constants";
 import styled from "styled-components";
 import { Spinner } from "../../GlobalStyles";
+import { useSelector } from "react-redux";
 
 export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
   const [games, setGames] = React.useState([]);
   const [playerStats, setPlayerStats] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const currentWeek = useSelector((state) => state.currentWeek);
   let week = 0;
-  const currentWeek = 36;
 
   const handleScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target;
@@ -19,19 +20,18 @@ export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
       setIsLoading(true);
       for (let i = 19; i < currentWeek; i++) {
         fetch(
-          `${apiUrl}/fixtures/players?fixture=${
-            games[i - 1].fixture.id
-          }&team=${teamId}`,
+          `${apiUrl}/fixtures/players?fixture=${games[i].fixture.id}&team=${teamId}`,
           { headers }
         )
           .then((res) => res.json())
           .then((data) => {
-            setPlayerStats((prev) => [
-              ...prev,
-              data.response[0].players.filter(
-                (player) => player.player.id === id
-              ),
-            ]);
+            data.results > 0 &&
+              setPlayerStats((prev) => [
+                ...prev,
+                data.response[0].players.filter(
+                  (player) => player.player.id === id
+                ),
+              ]);
             setIsLoading(false);
           });
       }
@@ -71,10 +71,7 @@ export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
       }
     }
   }, [games]);
-  //   console.log(isLoading);
-  //   games.length > 0 && console.log(games);
-  playerStats.length > 0 && console.log(playerStats);
-  //   console.log(id);
+
   return (
     <div>
       <Background onClick={() => setShowPlayerStats(false)}></Background>

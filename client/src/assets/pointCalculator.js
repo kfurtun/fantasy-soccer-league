@@ -4,7 +4,6 @@ export const individualPoints = (
   minutes,
   position,
   goals,
-  assist,
   cards,
   penalty,
   captain
@@ -14,9 +13,9 @@ export const individualPoints = (
   const conceded = goals.conceded;
   const saves = goals.saves;
   let sum = 0;
-  if (minutes < 60) {
+  if (minutes < 60 && minutes > 0) {
     sum += 2;
-  } else {
+  } else if (minutes >= 60) {
     sum += 4;
   }
 

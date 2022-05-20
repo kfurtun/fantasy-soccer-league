@@ -5,11 +5,11 @@ const saltRounds = 10;
 //for sign up
 const signUp = async (body, req, res) => {
   const { db, client } = await connectDb();
+  const checkUserExist = await db
+    .collection("users")
+    .findOne({ _id: body.email });
 
   bcrypt.hash(body.password, saltRounds, async (err, hash) => {
-    const checkUserExist = await db
-      .collection("users")
-      .findOne({ _id: body.email });
     if (!checkUserExist) {
       const newUser = await db
         .collection("users")
@@ -34,8 +34,8 @@ const signUp = async (body, req, res) => {
         message: "This user already exists",
       });
     }
+    client.close();
   });
-  client.close();
 };
 
 module.exports = signUp;

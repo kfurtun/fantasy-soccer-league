@@ -12,21 +12,53 @@ const filterPlayers = async (letters, req, res) => {
     letters.charAt(0).toUpperCase() + letters.slice(1).toLowerCase();
 
   const { db, client } = await connectDb();
-  const result = await db
-    .collection("players")
-    .find({
-      $or: [
-        {
-          firstname: new RegExp(input, "g"),
-        },
-        {
-          firstname: new RegExp(convertedInput, "g"),
-        },
-        { lastname: new RegExp(input, "g") },
-        { lastname: new RegExp(convertedInput, "g") },
-      ],
-    })
-    .toArray();
+  let result = "";
+  if (!req.query.position) {
+    result = await db
+      .collection("players")
+      .find({
+        $or: [
+          {
+            firstname: new RegExp(input, "g"),
+          },
+          {
+            firstname: new RegExp(convertedInput, "g"),
+          },
+          {
+            lastname: new RegExp(input, "g"),
+          },
+          {
+            lastname: new RegExp(convertedInput, "g"),
+          },
+        ],
+      })
+      .toArray();
+  } else {
+    result = await db
+      .collection("players")
+      .find({
+        $or: [
+          {
+            firstname: new RegExp(input, "g"),
+            position: req.query.position,
+          },
+          {
+            firstname: new RegExp(convertedInput, "g"),
+            position: req.query.position,
+          },
+          {
+            lastname: new RegExp(input, "g"),
+            position: req.query.position,
+          },
+          {
+            lastname: new RegExp(convertedInput, "g"),
+            position: req.query.position,
+          },
+        ],
+      })
+      .toArray();
+  }
+
   if (result.length > 0) {
     res
       .status(200)

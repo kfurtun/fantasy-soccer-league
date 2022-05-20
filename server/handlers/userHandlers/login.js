@@ -18,6 +18,7 @@ const login = async (password, email, req, res) => {
             team: userInfo.team,
           },
         });
+        client.close();
       } else {
         res.status(400).json({
           status: 400,
@@ -30,7 +31,6 @@ const login = async (password, email, req, res) => {
       .status(404)
       .json({ status: 404, message: "User not found. Please try again!" });
   }
-  client.close();
 };
 
 module.exports = login;

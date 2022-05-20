@@ -5,6 +5,7 @@ import {
   chooseTeam,
   changeCurrentPage,
   currentUserLoggedIn,
+  clearForm,
 } from "../../globalState";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -62,6 +63,7 @@ export const YourFavorites = React.memo(() => {
         .then((data) => {
           if (data.status === 200) {
             dispatch(currentUserLoggedIn({ ...data.data })); //gets user info from DB and put in global state
+            dispatch(clearForm());
             navigate("/");
           } else {
             alert(data.message);

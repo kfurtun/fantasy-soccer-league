@@ -7,3 +7,4 @@ export * from "./inputStatus";
 export * from "./genders";
 export * from "./registrationSections";
 export * from "./topPlayersCategories";
+export * from "./pointCalculator";
