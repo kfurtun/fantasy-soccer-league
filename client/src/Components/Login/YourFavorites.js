@@ -35,7 +35,6 @@ export const YourFavorites = React.memo(() => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setTeams(data.response);
       });
   }, []);

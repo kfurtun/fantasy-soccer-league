@@ -3,15 +3,14 @@ import { PageTemplate } from "../PageTemplate";
 import styled from "styled-components";
 import { currentWeek } from "../../assets/currentWeek";
 import { apiUrl, leagueId, season, headers } from "../constants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentWeek } from "../../globalState/currentWeekSlice";
 
 export const HomePage = () => {
   const [groupedArr, setGroupedArr] = React.useState({});
   const [dataResult, setDataResult] = React.useState([]);
   const dispatch = useDispatch();
-  const playingWeek = useSelector((state) => state.currentWeek);
-  console.log(playingWeek);
+
   React.useEffect(() => {
     fetch(`${apiUrl}/fixtures?league=${leagueId}&season=${season}`, {
       headers,

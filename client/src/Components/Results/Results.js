@@ -14,9 +14,6 @@ export const Results = () => {
   const [allUsers, setAllUsers] = React.useState([]);
   const [points, setPoints] = React.useState({});
 
-  console.log(points);
-  //   console.log(games.length);
-
   return (
     <PageTemplate>
       <Wrapper>

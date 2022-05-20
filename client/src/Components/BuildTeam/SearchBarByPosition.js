@@ -20,7 +20,6 @@ export const SearchBarByPosition = React.memo(({ position, index }) => {
       fetch(`${proxy}/player/${input}?position=${position}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setShowResult(true);
           setResult(data);
         });
@@ -28,8 +27,6 @@ export const SearchBarByPosition = React.memo(({ position, index }) => {
       setResult([]);
     }
   }, [input]);
-  console.log(result);
-  console.log(state);
 
   return (
     <Wrapper>

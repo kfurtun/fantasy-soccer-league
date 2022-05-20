@@ -13,12 +13,10 @@ export const AllUsersResults = ({
   gameIds,
   setGames,
 }) => {
-  console.log(selectedWeek);
   React.useEffect(() => {
     fetch(`${proxy}/results/all?week=${selectedWeek}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setAllUsers(data.data);
         if (data.data[0].point === null) {
           fetch(
@@ -27,7 +25,6 @@ export const AllUsersResults = ({
           )
             .then((res) => res.json())
             .then((data) => {
-              console.log(data);
               data.response.map((game) =>
                 setGameIds((prev) => [
                   ...prev,
@@ -96,9 +93,9 @@ export const AllUsersResults = ({
         headers: { "Content-type": "application/json; charset=UTF-8" },
       };
 
-      fetch(`${proxy}/results?week=${selectedWeek}`, body)
-        .then((res) => res.json())
-        .then((data) => console.log(data));
+      fetch(`${proxy}/results?week=${selectedWeek}`, body).then((res) =>
+        res.json()
+      );
     }
   }, [points]);
 

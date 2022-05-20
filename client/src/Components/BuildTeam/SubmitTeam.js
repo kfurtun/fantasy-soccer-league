@@ -16,9 +16,7 @@ export const SubmitTeam = () => {
     headers: { "Content-type": "application/json; charset=UTF-8" },
   };
   const handleClick = () => {
-    fetch(`${proxy}/team`, body)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    fetch(`${proxy}/team`, body).then((res) => res.json());
   };
 
   return <button onClick={handleClick}>Submit</button>;

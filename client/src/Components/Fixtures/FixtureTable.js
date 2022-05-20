@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const FixtureTable = ({ games }) => {
-  console.log(games);
   const dates = [];
   games.forEach((game) => {
     if (dates.length === 0) {

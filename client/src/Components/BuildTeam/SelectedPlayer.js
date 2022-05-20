@@ -4,7 +4,6 @@ import { removePlayerFromPosition } from "../../globalState";
 import { FaTrash } from "react-icons/fa";
 
 export const SelectedPlayer = ({ player, position, index, pastWeek }) => {
-  console.log(player);
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(

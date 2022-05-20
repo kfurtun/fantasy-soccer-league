@@ -17,7 +17,6 @@ export const SearchBar = React.memo(() => {
       fetch(`${proxy}/player/${input}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setShowResult(true);
           setResult(data);
         });

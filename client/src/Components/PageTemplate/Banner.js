@@ -8,7 +8,7 @@ import { currentUserLoggedOut } from "../../globalState";
 export const Banner = React.memo(() => {
   const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
-  console.log(user);
+
   return (
     <Wrapper>
       <LeftDiv>

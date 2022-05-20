@@ -14,7 +14,6 @@ export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
   const handleScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target;
     const scroll = scrollHeight - scrollTop - clientHeight;
-    console.log(scroll);
 
     if (scroll <= 1 && playerStats.length < currentWeek) {
       setIsLoading(true);
@@ -45,7 +44,6 @@ export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.response);
         setGames(data.response);
       });
   }, []);
@@ -59,7 +57,6 @@ export const PlayerStats = ({ teamId, id, setShowPlayerStats }) => {
         )
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             setPlayerStats((prev) => [
               ...prev,
               data.response[0].players.filter(

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const TopPlayersEachCategory = React.memo((props) => {
   const { category, players, keyValue, subKeyValue, subKeyValue2 } = props;
-  console.log(players);
+
   const title =
     (category === "topscorers" && "Scores") ||
     (category === "topassists" && "Assists") ||

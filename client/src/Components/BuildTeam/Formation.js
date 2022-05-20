@@ -17,7 +17,6 @@ export const Formation = React.memo(({ selectedWeek }) => {
   );
   const [pastWeek, setPastWeek] = React.useState(false);
   React.useEffect(() => {
-    console.log(user.email, week);
     fetch(`${proxy}/team/saved-lineup?email=${user.email}&week=${selectedWeek}`)
       .then((res) => res.json())
       .then((data) => {
@@ -35,7 +34,6 @@ export const Formation = React.memo(({ selectedWeek }) => {
     }
   }, [selectedWeek, pastWeek]);
   const state = useSelector((state) => state.lineUp);
-  console.log(pastWeek);
 
   const handleSelect = (e) => {
     setSelectedFormation(e.target.value.split("-"));
