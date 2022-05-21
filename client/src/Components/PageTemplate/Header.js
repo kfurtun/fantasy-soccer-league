@@ -24,6 +24,7 @@ export const Header = React.memo(({ clubs }) => {
               src={club.team.logo}
               alt={`${club.team.name} logo`}
               {...screenSizes}
+              key={club.team.name}
             />
           );
         })}
@@ -34,8 +35,6 @@ export const Header = React.memo(({ clubs }) => {
 
 const Wrapper = styled.header`
   display: flex;
-  gap: 1vw;
-  margin-left: 10vw;
   margin-top: 1vw;
   align-items: center;
 `;
@@ -43,8 +42,9 @@ const Wrapper = styled.header`
 const Clubs = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 70vw;
+  gap: 1vw;
+  margin-left: 8vw;
 `;
 const Img = styled.img`
-  width: 50px;
+  width: 3.5vw;
 `;

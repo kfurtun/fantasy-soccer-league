@@ -2,7 +2,6 @@ import React from "react";
 import { PageTemplate } from "../PageTemplate";
 import { Formation } from "./Formation";
 import { ShowWeeks } from "./ShowWeeks";
-import { SubmitTeam } from "./SubmitTeam";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 export const BuildTeam = () => {
@@ -17,9 +16,7 @@ export const BuildTeam = () => {
           setSelectedWeek={setSelectedWeek}
         />
       </ShowWeekCont>
-
       <Formation selectedWeek={selectedWeek} />
-      {selectedWeek >= week && <SubmitTeam />}
     </PageTemplate>
   );
 };

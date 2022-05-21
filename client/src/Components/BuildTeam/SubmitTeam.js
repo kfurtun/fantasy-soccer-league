@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { proxy } from "../constants";
+import styled from "styled-components";
 export const SubmitTeam = () => {
   const lineUp = useSelector((state) => state.lineUp);
   const week = useSelector((state) => state.currentWeek);
@@ -19,5 +20,21 @@ export const SubmitTeam = () => {
     fetch(`${proxy}/team`, body).then((res) => res.json());
   };
 
-  return <button onClick={handleClick}>Submit</button>;
+  return <Button onClick={handleClick}>Submit</Button>;
 };
+
+const Button = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  background: var(--primary-color);
+  color: white;
+  width: 8vw;
+  height: 2vw;
+  font-size: 1.2vw;
+  /* padding: 0.8vw; */
+  border-radius: var(--border-radius);
+  &:hover {
+    background: var(--primary-color-hover);
+  }
+`;

@@ -29,7 +29,10 @@ function App() {
           element={user.firstName ? <BuildTeam /> : <Navigate to="*" />}
         />
         <Route path="/fixtures" element={<Fixtures />} />
-        <Route path="/results" element={<Results />} />
+        <Route
+          path="/results"
+          element={user.firstName ? <Results /> : <Navigate to="*" />}
+        />
         <Route path="/point-system" element={<PointSystem />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

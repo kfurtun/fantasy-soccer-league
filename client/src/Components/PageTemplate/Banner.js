@@ -4,46 +4,53 @@ import { loginItems, bannerItems } from "../../assets";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { currentUserLoggedOut } from "../../globalState";
+import logo from "../../assets/images/logo.png";
 
 export const Banner = React.memo(() => {
   const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
 
   return (
-    <Wrapper>
-      <LeftDiv>
-        {bannerItems.map((item) => {
-          return (
-            <Item key={item.name} to={item.route}>
-              {item.name}
-            </Item>
-          );
-        })}
-      </LeftDiv>
-      <RightDiv>
-        {user.firstName ? (
-          <Cont>
-            <div style={{ color: "var(--secondary-color" }}>
-              {`Hello ${user.firstName}`}{" "}
-            </div>
-            <Item to="/" onClick={() => dispatch(currentUserLoggedOut())}>
-              Logout
-            </Item>
-          </Cont>
-        ) : (
-          loginItems.map((item) => {
+    <Container>
+      <Link to="/">
+        <Img src={logo} />
+      </Link>
+      <Wrapper>
+        <LeftDiv>
+          {bannerItems.map((item) => {
             return (
               <Item key={item.name} to={item.route}>
                 {item.name}
               </Item>
             );
-          })
-        )}
-      </RightDiv>
-    </Wrapper>
+          })}
+        </LeftDiv>
+        <RightDiv>
+          {user.firstName ? (
+            <Cont>
+              <div style={{ color: "var(--secondary-color" }}>
+                {`Hello ${user.firstName}`}{" "}
+              </div>
+              <Item to="/" onClick={() => dispatch(currentUserLoggedOut())}>
+                Logout
+              </Item>
+            </Cont>
+          ) : (
+            loginItems.map((item) => {
+              return (
+                <Item key={item.name} to={item.route}>
+                  {item.name}
+                </Item>
+              );
+            })
+          )}
+        </RightDiv>
+      </Wrapper>
+    </Container>
   );
 });
 
+const Container = styled.div``;
 const Wrapper = styled.nav`
   background-color: var(--primary-color);
   display: flex;
@@ -87,4 +94,10 @@ const Cont = styled.div`
   display: flex;
   align-items: center;
   gap: 1vw;
+`;
+
+const Img = styled.img`
+  height: 5vw;
+  position: absolute;
+  left: 2vw;
 `;

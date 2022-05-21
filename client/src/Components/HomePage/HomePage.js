@@ -5,6 +5,7 @@ import { currentWeek } from "../../assets/currentWeek";
 import { apiUrl, leagueId, season, headers } from "../constants";
 import { useDispatch } from "react-redux";
 import { setCurrentWeek } from "../../globalState/currentWeekSlice";
+import { Home } from "./Home";
 
 export const HomePage = () => {
   const [groupedArr, setGroupedArr] = React.useState({});
@@ -40,26 +41,7 @@ export const HomePage = () => {
   }, [groupedArr, dispatch]);
   return (
     <PageTemplate>
-      <Breaker>
-        <Line></Line>
-        <div>Or sign up </div>
-        <Line></Line>
-      </Breaker>
+      <Home />
     </PageTemplate>
   );
 };
-
-const Wrapper = styled.div``;
-
-const Breaker = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2vw;
-  gap: 1vw;
-  color: #bfbfbf;
-`;
-const Line = styled.div`
-  border-top: 1px solid #bfbfbf;
-  width: 40vw;
-`;

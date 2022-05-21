@@ -22,7 +22,7 @@ export const FixtureTable = ({ games }) => {
           .sort((a, b) => new Date(a) - new Date(b))
           .map((date) => {
             return (
-              <div>
+              <div key={Math.random()}>
                 <DateCont>{date}</DateCont>
                 <Line>
                   {games

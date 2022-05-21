@@ -6,7 +6,7 @@ import { formationOptions } from "../../assets/formationOptions";
 import { useDispatch, useSelector } from "react-redux";
 import { proxy } from "../constants";
 import { bringSubmittedLineup, clearLineup } from "../../globalState";
-import { currentWeek } from "../../assets/currentWeek";
+import { SubmitTeam } from "./SubmitTeam";
 
 export const Formation = React.memo(({ selectedWeek }) => {
   const dispatch = useDispatch();
@@ -40,11 +40,15 @@ export const Formation = React.memo(({ selectedWeek }) => {
   };
   return (
     <Container>
-      <Select onChange={handleSelect} value={selectedFormation.join("-")}>
-        {formationOptions.map((formation) => (
-          <option key={formation.join("-")}>{formation.join("-")}</option>
-        ))}
-      </Select>
+      <SubmitCont>
+        <Select onChange={handleSelect} value={selectedFormation.join("-")}>
+          {formationOptions.map((formation) => (
+            <option key={formation.join("-")}>{formation.join("-")}</option>
+          ))}
+        </Select>
+        {selectedWeek >= week && <SubmitTeam />}
+      </SubmitCont>
+
       <Wrapper image={field}>
         <Position>
           <Title>Goalkeeper</Title>
@@ -82,7 +86,7 @@ const Container = styled.main`
 
 const Wrapper = styled.div`
   width: 60vw;
-  max-height: 40vw;
+  min-height: 40vw;
   margin: auto;
   margin-top: 2vw;
   display: flex;
@@ -110,7 +114,7 @@ const Search = styled.div`
 const Select = styled.select`
   width: 8vw;
   height: 2vw;
-  margin-top: 2vw;
+  font-size: 1.2vw;
   color: white;
   text-align: center;
   overflow: auto;
@@ -133,4 +137,12 @@ const Select = styled.select`
 
 const Title = styled.div`
   color: var(--primary-color);
+`;
+
+const SubmitCont = styled.div`
+  display: flex;
+  gap: 2vw;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vw;
 `;
