@@ -41,11 +41,13 @@ export const Formation = React.memo(({ selectedWeek }) => {
   return (
     <Container>
       <SubmitCont>
-        <Select onChange={handleSelect} value={selectedFormation.join("-")}>
-          {formationOptions.map((formation) => (
-            <option key={formation.join("-")}>{formation.join("-")}</option>
-          ))}
-        </Select>
+        {selectedWeek >= week && (
+          <Select onChange={handleSelect} value={selectedFormation.join("-")}>
+            {formationOptions.map((formation) => (
+              <option key={formation.join("-")}>{formation.join("-")}</option>
+            ))}
+          </Select>
+        )}
         {selectedWeek >= week && <SubmitTeam />}
       </SubmitCont>
 
